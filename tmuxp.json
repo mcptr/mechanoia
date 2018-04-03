@@ -1,0 +1,41 @@
+{
+	"session_name": "MECHANOIA",
+	"windows": [
+		{
+			"panes": [
+				{
+					"shell_command": ["ls -la"]
+				}
+			], 
+			"shell_command_before": ["pwd"], 
+			"layout": "tiled", 
+			"window_name": "fs"
+		},
+		{
+			"panes": [
+				{
+					"shell_command": [
+						"make scss",
+						"./utils/scss-watch.sh"
+					]
+				}
+			], 
+			"shell_command_before": ["date"], 
+			"layout": "tiled", 
+			"window_name": "run"
+		},
+		{
+			"panes": [
+				{
+					"shell_command": [
+						"cd mechanoia-scraping",
+						"ls -la"
+					]
+				}
+			], 
+			"shell_command_before": ["date"], 
+			"layout": "tiled", 
+			"window_name": "scraping"
+		}
+	]
+}
