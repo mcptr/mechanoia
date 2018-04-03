@@ -10,6 +10,10 @@ $color-logo: #000;
 
 
 body {
+    background: $color-bg;
+    color: $color-fg;
+    font-family: "Verdana", "Open Sans", "DejaVu Sans", sans-serif, system-ui;
+    font-size: 1.8rem;
 
     .logo {
 	font-weight: bold;
@@ -19,10 +23,6 @@ body {
 	    color: #000;
 	}
     }
-    
-    background: $color-bg;
-    color: $color-fg;
-    font-family: "Verdana", "Open Sans", "DejaVu Sans", sans-serif, system-ui;
 
     a {
 	text-decoration: none;
@@ -35,7 +35,6 @@ body {
 	}
     }
 }
-
 
 ul.unstyled {
     list-style: none;
