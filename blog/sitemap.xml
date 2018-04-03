@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tree>
+  <directory name=".">
+    <file name="index.html" size="3841"></file>
+    <file name="Makefile" size="240"></file>
+    <file name="_meta.mtime.txt" size="11"></file>
+    <directory name="posts" size="4096">
+      <directory name="000-about" size="4096">
+      </directory>
+      <directory name="005-DEVELOPMENT-setup" size="4096">
+        <file name="000-fbsd.md" size="45"></file>
+        <file name="005-freebsd-ssh.md" size="807"></file>
+        <file name="010-freebsd-ezjail.md" size="1630"></file>
+        <file name="020-postgres.md" size="1129"></file>
+        <file name="021-rabbitmq.md" size="298"></file>
+      </directory>
+      <directory name="010-infrastructure" size="4096">
+      </directory>
+    </directory>
+    <file name="sitemap.xml" size="0"></file>
+  </directory>
+  <report>
+    <directories>4</directories>
+    <files>9</files>
+  </report>
+</tree>

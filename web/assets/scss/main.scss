@@ -1,0 +1,42 @@
+@import "normalize";
+@import "skeleton";
+
+
+$color-bg: #fff;
+$color-fg: #666;
+$color-link: #256;
+$color-link-hover: #512;
+$color-logo: #000;
+
+
+body {
+
+    .logo {
+	font-weight: bold;
+
+	a,
+	a:hover {
+	    color: #000;
+	}
+    }
+    
+    background: $color-bg;
+    color: $color-fg;
+    font-family: "Verdana", "Open Sans", "DejaVu Sans", sans-serif, system-ui;
+
+    a {
+	text-decoration: none;
+	font-weight: bold;
+	color: $color-link;
+
+	&:hover {
+	    color: $color-link-hover;
+	    opacity: 0.8;
+	}
+    }
+}
+
+
+ul.unstyled {
+    list-style: none;
+}
