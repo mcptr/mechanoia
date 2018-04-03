@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tree>
   <directory name=".">
-    <file name="index.html" size="3841"></file>
-    <file name="Makefile" size="240"></file>
+    <file name="index.html" size="3322"></file>
+    <file name="Makefile" size="246"></file>
     <file name="_meta.mtime.txt" size="11"></file>
     <directory name="posts" size="4096">
       <directory name="000-about" size="4096">
