@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS domains (
        id BIGSERIAL PRIMARY KEY,
        fqdn VARCHAR(2048) NOT NULL UNIQUE,
+       hits BIGINT NOT NULL DEFAULT 0,
        ctime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -9,4 +10,28 @@ CREATE TABLE IF NOT EXISTS blacklisted_domains (
        reason TEXT DEFAULT NULL
 ) INHERITS(domains);
 
+
 CREATE UNIQUE INDEX ON blacklisted_domains(fqdn);
+
+
+CREATE TABLE IF NOT EXISTS urls (
+       id BIGSERIAL PRIMARY KEY,
+       domain_id BIGINT NOT NULL REFERENCES domains(id),
+       url VARCHAR(4096) NOT NULL UNIQUE,
+       hits BIGINT NOT NULL DEFAULT 0,
+       ctime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE IF NOT EXISTS url_refs (
+       id BIGSERIAL PRIMARY KEY,
+       from_id BIGINT NOT NULL REFERENCES urls(id),
+       to_id BIGINT NOT NULL REFERENCES urls(id),
+       is_external BOOLEAN DEFAULT FALSE,
+       hits BIGINT NOT NULL DEFAULT 0,
+       text VARCHAR(512) DEFAULT NULL,
+       ctime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE UNIQUE INDEX url_ref_uidx ON url_refs(from_id, to_id, text);

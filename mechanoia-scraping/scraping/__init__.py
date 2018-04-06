@@ -2,6 +2,7 @@ from . import config
 from . import mq
 
 import psycopg2
+import psycopg2.extras
 from redis import StrictRedis
 
 
@@ -11,4 +12,7 @@ def get_redis_connection(**params):
 
 
 def get_pg_connection(conn_str=None):
-    return psycopg2.connect((conn_str or config.pgsql_conn_str))
+    return psycopg2.connect(
+        (conn_str or config.pgsql_conn_str),
+        cursor_factory=psycopg2.extras.NamedTupleCursor,
+    )

@@ -33,6 +33,10 @@ class TaskConsumer:
             queue=self.in_queue.queue,
         )
 
+    def __del__(self):
+        self.in_channel.close()
+        self.in_connection.close()
+
     def process(self, *args, **kwargs):
         if self.callback:
             self.callback(*args, **kwargs)
@@ -68,6 +72,10 @@ class TaskPublisher:
         )
 
         self.channel.basic_qos(prefetch_count=1)
+
+    def __del__(self):
+        self.channel.close()
+        self.connection.close()
 
     def publish(self, message, **kwargs):
         properties = None

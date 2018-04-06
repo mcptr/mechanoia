@@ -4,6 +4,7 @@
 import json
 import time
 import scraping
+from scraping import storage
 from urllib.parse import urlparse
 
 
@@ -36,15 +37,25 @@ class URLFilter(scraping.mq.TaskFilter):
     def process(self, ch, method, properties, body):
         body = json.loads(body)
         parsed = urlparse(body["url"])
-        fqdn = parsed.netloc.split(":")[0]
+        fqdn = parsed.hostname
         filtered_out = False
         if (not is_scheme_supported(parsed) or
             is_domain_blacklisted(fqdn)):
             filtered_out = True
 
         if not filtered_out:
-            print("OK:", parsed.geturl())
-            body.update(filter_ts=int(time.time()))
+            with pg.cursor() as cur:
+                print("OK:", parsed.geturl())
+                domain_id = storage.store_domain(cur, fqdn)
+                body["domain_id"] = domain_id
+                url_id = storage.store_url(cur, domain_id, parsed.geturl())
+                body["url_id"] = url_id
+                cur.connection.commit()
+
+            body.update(
+                domain_id=domain_id,
+                filter_ts=int(time.time())
+            )
             self.publisher.publish(body, persistent=True)
         ch.basic_ack(delivery_tag=method.delivery_tag)
 

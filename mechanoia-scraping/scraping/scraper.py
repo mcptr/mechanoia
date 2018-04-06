@@ -16,7 +16,7 @@ class DocumentCache:
 
     def store(self, doc, ttl=(3600 * 24 * 7)):
         doc_id = self._mk_key(doc)
-        self.redis.setex(doc_id, ttl, doc)
+        self.redis.setex(doc_id, ttl, json.dumps(doc))
         print("DocumentCache:", doc_id)
         return doc_id
 
@@ -61,7 +61,7 @@ class _URLFetch(scraping.mq.TaskFilter):
         ok = True
 
         if self.is_domain_throttled(fqdn):
-            ok = False
+            # ok = False
             print("Throttled:", fqdn)
 
         if ok:
