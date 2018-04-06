@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS domains (
+       id BIGSERIAL PRIMARY KEY,
+       fqdn VARCHAR(2048) NOT NULL UNIQUE,
+       ctime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE IF NOT EXISTS blacklisted_domains (
+       reason TEXT DEFAULT NULL
+) INHERITS(domains);
+
+CREATE UNIQUE INDEX ON blacklisted_domains(fqdn);
