@@ -42,12 +42,11 @@ class URLFilter(scraping.mq.TaskFilter):
             is_domain_blacklisted(fqdn)):
             filtered_out = True
 
-        # scraping.urls.throttler.throttle_domain(fqdn, 60)
         if not filtered_out:
             print("OK:", parsed.geturl())
             body.update(filter_ts=int(time.time()))
             self.publisher.publish(body, persistent=True)
-        ch.basic_ack(delivery_tag = method.delivery_tag)
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 flt = URLFilter(

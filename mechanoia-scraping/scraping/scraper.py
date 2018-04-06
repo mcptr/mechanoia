@@ -1,8 +1,27 @@
 import json
 import time
 import requests
+import hashlib
 import scraping
 from urllib.parse import urlparse
+
+
+class DocumentCache:
+    def __init__(self, redis=None):
+        self.redis = (redis or scraping.get_redis_connection())
+
+    def _mk_key(self, doc):
+        doc_id = hashlib.md5(doc["url"].encode("utf-8")).hexdigest()
+        return "doc:%s" % doc_id
+
+    def store(self, doc, ttl=(3600 * 24 * 7)):
+        doc_id = self._mk_key(doc)
+        self.redis.setex(doc_id, ttl, doc)
+        print("DocumentCache:", doc_id)
+        return doc_id
+
+    def get(self, id):
+        return self.redis.get(id)
 
 
 class Scraper:
@@ -27,9 +46,9 @@ class _URLFetch(scraping.mq.TaskFilter):
         self.redis = kwargs.pop("redis", scraping.get_redis_connection())
         super().__init__(*args, **kwargs)
         self.scraper = Scraper()
+        self.document_cache = DocumentCache(self.redis)
 
     def is_domain_throttled(self, fqdn):
-        return False
         return self.redis.get(self._throttle_prefix + fqdn)
 
     def throttle_domain(self, fqdn, sec):
@@ -80,10 +99,13 @@ class URLFetch(_URLFetch):
         r = self.scraper.get(url, allow_redirects=1)
         print("GET", r.status_code, url)
         if r.ok:
-            print(r.content)
             body.update(
-                document=dict(),
                 fetch_ts=int(time.time())
             )
+
+            doc = body.copy()
+            doc.update(content=r.text)
+            doc_id = self.document_cache.store(doc)
+            body.update(cached_document_id=doc_id)
         return r
 

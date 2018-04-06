@@ -13,4 +13,3 @@ class ScrapingExchange:
     exchange = "scraping"
     exchange_type = "direct"
     queues = URLQueues()
-

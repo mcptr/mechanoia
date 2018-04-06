@@ -19,5 +19,4 @@ scraper = scraping.scraper.URLFetch(
     redis=redis
 )
 
-
 scraper.start()
