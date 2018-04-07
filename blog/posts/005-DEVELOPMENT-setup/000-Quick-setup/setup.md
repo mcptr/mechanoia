@@ -27,9 +27,10 @@ su postgres
 ```
 
 Add a user and database. We assume your system username is "mechanoia".
-
+```
 createuser -SdRP mechanoia
 createdb -O mechanoia mechanoia
+```
 
 ## RabbitMQ
 
